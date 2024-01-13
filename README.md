@@ -21,7 +21,7 @@ The final result is shown below:
 * carla simulator 0.9.10
 * cmake
 
-### tree main files
+## tree main files
 
 ```
 .
@@ -38,10 +38,42 @@ The final result is shown below:
 └── run_carla.sh
 ```
 
-### libcarla-install
-Ensure that the libcarla-install/ folder is present in your current working directory. The folder contains the static binaries built for the target VM workspace environment. If the folder is missing or corrupt, you can regenerate the files using the following command:
+## Workflow
+
+1. Ensure that the libcarla-install/ folder is present in your current working directory. The folder contains the static binaries built for the target VM workspace environment. If the folder is missing or corrupt, you can regenerate the files using the following command:
 
 ```
 chmod +x make-libcarla-install.sh
 ./make-libcarla-install.sh
 ```
+
+2. Compile the project
+
+```
+cmake .
+make
+```
+
+These steps will generate the **clooud_loc** executable.
+
+3. Open a terminal and run the CARLA simulator server using either linux or windows:
+
+* Linux:
+
+```
+./run_carla.sh
+```
+
+* Windows:
+
+```
+./CarlaUE4.exe -RenderOffScreen
+```
+
+4. Open another Terminal tab and execute the generated executable.
+
+```
+./cloud_loc 
+```
+
+
