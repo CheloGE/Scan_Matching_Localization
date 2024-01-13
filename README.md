@@ -1,5 +1,8 @@
 # Scan Matching Localization
 
+![capture](https://github.com/mrgares/Scan_Matching_Localization/assets/6826404/fbcfd086-073c-42fe-b0a3-82ff396247dd)
+
+
 The following 
 project implements ICP to localize a vehicle throughout a given map.
 
@@ -13,7 +16,6 @@ The final result is shown below:
 
 ![](./figures/final_result.png)
 
-![capture](https://github.com/mrgares/Scan_Matching_Localization/assets/6826404/fbcfd086-073c-42fe-b0a3-82ff396247dd)
 
 ## Dependencies
 * vtk7.1
