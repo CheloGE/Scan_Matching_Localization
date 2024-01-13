@@ -23,6 +23,7 @@ The final result is shown below:
 
 ### tree main files
 
+```
 .
 ├── CMakeLists.txt
 ├── README.md
@@ -35,6 +36,7 @@ The final result is shown below:
 ├── map_loop.pcd
 ├── rpclib
 └── run_carla.sh
+```
 
 ### libcarla-install
 Ensure that the libcarla-install/ folder is present in your current working directory. The folder contains the static binaries built for the target VM workspace environment. If the folder is missing or corrupt, you can regenerate the files using the following command:
