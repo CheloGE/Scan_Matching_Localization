@@ -175,6 +175,7 @@ int main(){
 	pcl::visualization::PCLVisualizer::Ptr viewer (new pcl::visualization::PCLVisualizer ("3D Viewer"));
   	viewer->setBackgroundColor (0, 0, 0);
 	viewer->registerKeyboardCallback(keyboardEventOccurred, (void*)&viewer);
+	viewer->setSize(640, 480); // Set the window size
 
 	auto vehicle = boost::static_pointer_cast<cc::Vehicle>(ego_actor);
 	Pose pose(Point(0,0,0), Rotate(0,0,0));
@@ -187,13 +188,12 @@ int main(){
 
 	typename pcl::PointCloud<PointT>::Ptr cloudFiltered (new pcl::PointCloud<PointT>);
 	typename pcl::PointCloud<PointT>::Ptr scanCloud (new pcl::PointCloud<PointT>);
+
 	lidar->Listen([&new_scan, &lastScanTime, &scanCloud](auto data){
 
 		if(new_scan){
 			auto scan = boost::static_pointer_cast<csd::LidarMeasurement>(data);
-			auto counter = 0;
 			for (auto detection : *scan){
-				counter++;
 				if((detection.point.x*detection.point.x + detection.point.y*detection.point.y + detection.point.z*detection.point.z) > 8.0){ // Don't include points touching ego
 					pclCloud.points.push_back(PointT(detection.point.x, detection.point.y, detection.point.z));
 				}
@@ -212,15 +212,8 @@ int main(){
   	{
 		while(new_scan){
 			std::this_thread::sleep_for(0.1s);
-			try {
-				world.Tick(1s);
-			} catch (const std::exception& e) { // Catch exceptions derived from std::exception
-				std::cerr << "WARNING: tick not received - " << e.what() << std::endl;
-			} catch (...) { // Catch all other exceptions
-				std::cerr << "WARNING: tick not received - unknown exception" << std::endl;
-			}
-			
-		}
+            world.Tick(1s);
+        }
 		if(refresh_view){
 			viewer->setCameraPosition(pose.position.x, pose.position.y, 60, pose.position.x+1, pose.position.y+1, 0, 0, 0, 1);
 			refresh_view = false;
@@ -270,6 +263,7 @@ int main(){
 
 			viewer->removeAllShapes();
 			drawCar(pose, 1,  Color(0,1,0), 0.35, viewer);
+
           	double poseError = sqrt( (truePose.position.x - pose.position.x) * (truePose.position.x - pose.position.x) + (truePose.position.y - pose.position.y) * (truePose.position.y - pose.position.y) );
 			if(poseError > maxError)
 				maxError = poseError;
@@ -280,6 +274,7 @@ int main(){
 			viewer->addText("Pose error: "+to_string(poseError)+" m", 200, 150, 32, 1.0, 1.0, 1.0, "derror",0);
 			viewer->removeShape("dist");
 			viewer->addText("Distance: "+to_string(distDriven)+" m", 200, 200, 32, 1.0, 1.0, 1.0, "dist",0);
+
 			if(maxError > 1.2 || distDriven >= 170.0 ){
 				viewer->removeShape("eval");
 			if(maxError > 1.2){
