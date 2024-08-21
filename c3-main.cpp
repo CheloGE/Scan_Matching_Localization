@@ -141,7 +141,7 @@ Eigen::Matrix4d ICP(PointCloudT::Ptr target, PointCloudT::Ptr source, Pose start
 
 int main(){
 
-	auto client = cc::Client("192.168.0.195", 2000);
+	auto client = cc::Client("192.168.1.133", 2000);
 	client.SetTimeout(2s);
 	auto world = client.GetWorld();
 
